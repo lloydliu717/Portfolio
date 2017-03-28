@@ -1,5 +1,10 @@
 \documentclass{article}
 
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{left = 2.0cm,	right = 2.0cm,	top = 2.0cm, bottom = 2.0cm}
 \title{Portfolio of MSSP Projects}
 \author{Zichun Liu}
 
@@ -20,37 +25,180 @@
 
 	\section{Ant anatomy and behavior research}
 	\subsection{Introduction \& Background}
-	some context for the project\\
-	summarize the basic problem or question that you were asked to address by your client\\
-	the nature of the data\\ 
-	the goal(s) of your work.
+	In this project, our client Darcy Gordon from Department of Biology is interested in the relationship between ant brain anatomy and motor information. Our team mainly focused on helping our client analyze the result of her experiment. The experiment focused on 3 types of ants(3 morphological groups) and tested their ability to detect chemical trails with different concentrations. 
+	
+	In the experiment, there are followign factors:
+	\begin{itemize}
+		\item three colonies(PR6,PR7,PR8) of ants and each contains
+		\item three morphological groups:
+			\subitem minor N= 17,
+			\subitem major N= 18, and
+			\subitem supersoldier N= 17 (total across all colonies).
+		\item three chemical trails with different concentrations: 0.0003, 0.001, 0.003
+	\end{itemize}
+	
+	Each individual ant was tested at each of the 3 chemical trails. The whole data set has 3*(17+18+17) = 156 observations. 
+
+	Based on our conversations, client is interested in:
+	\begin{enumerate}
+		\item Effect of the subcaste and the trail concentration on the success rate of detection for each ants. This can be broken down into:
+		\begin{itemize}
+			\item Does concentration increase the detection rate.
+			\item Is there a difference in the detection rate between the subcaste.
+			\item Is the effect of concentration differeren for different subcaste.
+		\end{itemize}
+		\item Prediction for different subcaste and a trail concentration with the prediction interval.
+	\end{enumerate}
+	
 	\subsection{Data Format}
-	What is the nature of the data that you used in pursuing your goals\\
-	How were they obtained\\
-	What, if any, processing, cleaning, etc. was done\\
-	Importantly, to what extent – and why – do you expect that these data have information in them relevant to your stated goal(s)?\\
+	We have two kinds of outcomes, the first one is binary(detection or not,1 or 0), the second one is the proportion of detected trail crosses (on a scale of 0-1). The proportions are calculated by dividing the total number of turns an ants takes along an artificial trail by the total number of times it encountered the trail when running a behavioral assay. This corresponds to the trail following data sheet our client sent as “proportion detected” which is turns/ (turns + crosses). It gives us information about how well they followed a trail not just if they are able to detect it. 
+	
+	However, the turns and crosses have more information than the proportions. The detection data could be treated that it is from the proportions (0 proportions indicate 0 detection while not 0 proportions indicate 1 detection).
+	
+	
+
 	\subsection{Modeling \& Analysis}
-	Describe (concisely!) the key steps you took and the findings you obtained in the modeling and analysis of your data.\\
-	\\
-	These might include, for example, exploratory data analysis (e.g., visualizations, summary statistics, and initial attempts at modeling),\\
-	\\
-	and further key steps in the potentially iterative process you pursued. \\
-	\\
-	For each key step and/or result, there should correspond relevant R code, archived in an appropriate project folder on github, with the project folder referenced appropriately in your portfolio1.
+	After the discussion with our client, we agreed to work on the following two models:  \\
+	 
+	\noindent\textbf{Model 1: Binomial Model with turns and crosses information as responses}  
+
+	\begin{align*}
+	y_i &\sim Bin(n_i,p_i)\\
+	p_i &= logit^{-1}(\beta_0 + \beta_sx_{is} + \beta_cx_{ic} + \beta_{sc}x_{is}:x_{ic} + \alpha_{j[i]})\\
+	\alpha_j &\sim N(0, \sigma^2_a),j=1,...,J
+	\end{align*}
+	
+	Where $i$ indexes each trial, and $j$ indexes each ant. In this model we assume turns and crosses are successes and failures of sequence of independent trials, which is not necessarily true. However by accounting for $n_i = trun_i + cross_i$ we are in a way taking into account the indivisual activity level. We assume the turns and crosses are independent.  \\
+	
+	\noindent\textbf{Model 2: Logistic Regression with binary outcomes as responses}  
+	
+	\begin{align*}
+	y_i &\sim Bernoulli(p_i)\\
+	p_i &= logit^{-1}(\beta_0 + \beta_sx_{is} + \beta_cx_{ic} + \beta_{sc}x_{is}:x_{ic} + \alpha_{j[i]})\\
+	\alpha_j &\sim N(0, \sigma^2_a),j=1,...,J
+	\end{align*}  
+	
+	Where $i$ indexes each trial, and $j$ indexes each ant. In this model we collapsed the crosses and turns information into binary outcomes, that is, if the number of turns is not zero, then there is a success (outcome 1) for this single trial which includes multiple turns and crosses. We assume these macro trials are independent.
+	
 		\subsubsection{Exploratory Data Analysis}
-	\subsection{Findings}
+		\noindent\textbf{Model 1: turns and crosses information as responses}\\\\
+		The rate of detection per ant is plotted for the subcaste and the concentration. 
+		.\\
+		.\\
+		.\\
+		.\\
+		.\\
+		Pic 1.\\
+		.\\
+		.\\
+		.\\
+		.\\
+		. 
+		
+		The trends are not parallel with each other from low to high concentration when the subcaste is minor, major and supersoldier indicating there is difference in how ants reacts to concentration for different subcaste. \\
+		
+		\noindent\textbf{Model 2: binary outcomes as responses}\\\\
+		Count the 0’s and 1’s for each subcaste level and each concentration level.
+		.\\
+		.\\
+		.\\
+		.\\
+		.\\
+		Pic 2.\\
+		.\\
+		.\\
+		.\\
+		.\\
+		. 
+		
+		Although we lost some information when converting the turns and crosses into the outcomes, we can use the histograms above to get a sense whether there exist interaction terms. In general, the proportion of 1’s increases from minor to supersoldier in subcaste and from low to high in concentration. There is no strong evidence showing there exist interaction terms. 
+		
+		However, being more precise, let’s focus on the 4 upper-left subplots. There are all 0’s in the minor \& low class and there are some 1’s in the major \& low class, but there are more 1’s in minor \& medium class than that in major \& medium class. This phenomenon shows the trail detecting ability is growing faster in minor than that in major subcaste, at least when we increases the concentration from low to medium, but we don’t know how strong this effect is. Thus we still want to enroll interaction term when fitting Model 2 and see if the interaction term is significant or not.		
+		
+	\subsection{Model 1 Fitting}
+		\subsubsection{linear separation problem}
+		Let’s enroll the interaction term in the logistic mixed effect model. We will find something strange happens: the standard error of $subcasteminor:concentrationlow$ is too large. It is called the linear separation problem. This phenomenon happens due to the sudden change in response when we change the value of discrete predictors. Use our case as an example, we could get the reference level is subcaste major and concentration high. In this situation, there should be a lot of data points where turns are not equal to 0. We also know that when in the subcaste minor and low concentration situation, no ant has any turns, so the standard error of $subcasteminor:concentrationlow$ explodes. We can also interpret this phenomenon in this way: some linear combination of the predictors could nearly separate the response classes. It is where the term “linear separation” comes from.
+		.\\
+		.\\
+		.\\
+		.\\
+		.\\
+		R output.\\
+		.\\
+		.\\
+		.\\
+		.\\
+		. 
+		\subsubsection{Remedy: convert the format of concentration to numeric}
+		One necessary condition of linear separation is that all the predictors should be discrete, so one simple remedy method is to use continuous concentrations: 0.0003, 0.001, 0.003. Because we are considering interaction term, the scales of predictors should be almost the same. I multiplied each concentration by 1000.
+		.\\
+		.\\
+		.\\
+		R output.\\
+		.\\
+		.\\
+		.
+		
+		We will find that now there is no linear separation. The following plot shows us that there is the supersoldier ant has a less sleep increase of detection probability when concentration goes up, which indicates we should have the interaction term. The negative value of $subcastesupersoldier:concentration\_n$ coefficient agrees this.
+		.\\
+		.\\
+		.\\
+		R plot.\\
+		.\\
+		.\\
+		.
+		\subsubsection{Prediction}
+		If we don’t specify the ant ID in prediction, we need to add variance from random effect and get larger prediction intervals. The following prediction intervals are computed from simulation, providing empirical 2.5\%, 50\%(median), 97.5\% quantiles as well as the empirical means of the success probabilities, which are listed as the last number in each category.\\
+		.\\
+		.\\
+		.\\
+		R output.\\
+		.\\
+		.\\
+		.	
+		
+		If we use ant ID in prediction, we will get small prediction intervals. The results are in the “trail\_following\_pred\_intervals.csv”, headed with “crossturn”.
+	\subsection{Model 2 Fitting}
+	\subsubsection{Linear separation problem and remedy}
+	Using predictor “concentration” with 3 levels low, medium, high, we came across the linear separation again. And as what we have done in the last section, use numeric concentration and again scale them (times 1000) and refit the model:\\
+	.\\
+	.\\
+	.\\
+	R output.\\
+	.\\
+	.\\
+	.		
+	
+	The interaction terms are not significant, but the signs before the coefficients of the interactions are the same as those in Section 4.2. Keeping the interaction term will not hurt the predictions. The plots below also showed that there is some difference between the left and right plot, although not significant.
+	\subsubsection{Prediction}
+	We can get similar prediction interval for each combination of subcaste and concentration level without ant ID, via the same simulation method. The prediction intervals are also in the “trail\_following\_pred\_intervals.csv”, headed with “binary”.
+	.\\
+	.\\
+	.\\
+	R output.\\
+	.\\
+	.\\
+	.		
+	
+	Note that the prediction and confidence interval is different from that in Section 4.3 because the definition of “success” is different: in Section 4, turns means successes while in Section 5, when outcome is 1, there is a success.
 	\subsection{Discussion}
-	\subsection{Appendix}
-	dfalsdjf\\
-	adfsdafasdf\\
-	asdfsadf\\
+	\subsubsection{Limitations of our analysis}
+	There are some limitations of our analysis, because of these two assumptions we made: 
+	\begin{enumerate}
+		\item We are assuming the turns are independent from one another, which we have known they are not true.
+		\item We are assuming homogeneity across the colonies, because we don’t include colony effect in our analysis. See Section 2.6.2.
+	\end{enumerate} 
+	\subsubsection{More about random effect: the colony effect}
+	We tried putting the colony effect in the model but we encountered numerical issues again and had some problems in convergence. Thus we were unable to include the colony effect by now. If you want to add colony effect urgently, we are happy to work on applying the regularization methods mentioned below to address the numerical issues and include colony effect into analysis. In other case, we’d like to include ant ID as random effect only as what we did in Section 2.1-2.5.
+	\subsubsection{Future analysis: fully addressing the numerical issues}
+	To fully address the numerical issues including linear separation, we would probably need to use some regularization methods in Bayesian framework. The Bayesian regularization methods won’t provide p-values which is required in many fields. We will be happy to make suggestions if our client's field don’t have a strict rule about providing p-values.
+	
 	
 	
 	
 	
 	\section{Measuring the impact of geriatric care among Medicare beneficiaries}
 	\subsection{Introduction \& Background} 
-	
 	This is a collaboration project with the Trinity Partners. 
 	
 	Rising medical cost due to aging population is one of the top concerns in the US.  There are currently almost 50 million people over 65 and 70 percent of them have two or more chronic conditions, which contribute to non-stopping, continuing costs of medicine and other medical services. This population cost Medicare nearly 650 billion dollars just looking at year 2015.  
@@ -65,21 +213,34 @@
 	\end{itemize}
 	   	
 	\subsection{Data Format}
-	\paragraph{}The data we have was originated from Medicare claim data from Jan 1st 2010 to Dec 31st 2014, in which each observation is a claim report in the system. \\
+	The data we have was originated from Medicare claim data from Jan 1st 2010 to Dec 31st 2014, in which each observation is a claim report in the system. 
 	
-    For the purpose of studying the impact of geriatric care on patients, we converted the claim-based data to patient-based data. The number of claims in 2010 and CCI are calculated from the information between 2010-01-01 and 2010-12-31. Other variables are calculated or extracted from information between 2011-01-01 and 2014-12-31. \\
+    For the purpose of studying the impact of geriatric care on patients, we converted the claim-based data to patient-based data. The number of claims in 2010 and CCI are calculated from the information between 2010-01-01 and 2010-12-31. Other variables are calculated or extracted from information between 2011-01-01 and 2014-12-31. 
     
-    2 pair of sample datasets have been used in the analysis, being one for survival analysis and the other for cost and resource analysis.\\
+    2 pair of sample datasets have been used in the analysis, being one for survival analysis and the other for cost and resource analysis.
 
 	
-	\subsection{Modeling \& Analysis}
-	Describe (concisely!) the key steps you took and the findings you obtained in the modeling and analysis of your data.\\
-	\\
-	These might include, for example, exploratory data analysis (e.g., visualizations, summary statistics, and initial attempts at modeling),\\
-	\\
-	and further key steps in the potentially iterative process you pursued. \\
-	\\
-	For each key step and/or result, there should correspond relevant R code, archived in an appropriate project folder on github, with the project folder referenced appropriately in your portfolio1.
+	\subsection{Methods}
+	\subsubsection{Charlson Comorbidity Index}
+	The Charlson Comorbidity Index (CCI) is the predicted one-year mortality for a patient with one or more chronic conditions (Charlson, M,1987). Given the fact that there are nearly 70\% of Medicare beneficiaries in the U.S. have multiple chronic diseases, the CCI is applied and calculated for each patient in order to control for patients’ health condition among case and control groups. 
+	
+	The CCI takes into account 17 chronic conditions and assigns each of them with a weight of 1, 2, 3, or 6, based on the associated risk of dying. Then the weights are summed for each patient in order to attain a total score. The range of a patient’s CCI is 0-30.
+	
+	\subsubsection{Propensity Score Matching}
+	Propensity score is the probability of being assigned treatment conditional on observed covariates, which we denote as $P(T=1|X)$. Here $X$ indicates a matrix of all pre-treatment covariates, $T$ indicates binary treatment corresponding to geriatric care. $T$ is 1 when there is geriatric care and $T$ is 0 when there is not.  
+	
+	Propensity score matching entails forming matched sets of subjects in case and control groups, who share a similar value of the propensity score. Subjects in case and control groups that are paired are close to each other, which is done by using nearest neighbor matching method.
+	
+	\subsubsection{Causal Inference}
+	Causal inference for individual $i$ is the comparison of the outcome $Y_i(1)$ if he/she receive the treatment and the outcome $Y_i(0)$ if he/she does not receive the treatment. In general, there are two measurement of causal inference, Average Treatment Effect(ATE) and Average Treatment Effect only focus on Treated group(ATT). 
+	
+	ATE is measured by $E(Y_i(1)-Y_i(0)|x,i\in All.groups)$, where $x$ is control variables. ATT is measured by $E(Y_i(1)-Y_i(0)|x,i\in Treated.group)$ 
+	
+	Propensity score matching is a popular method to addressing this problem. After using propensity score matching, we can find individuals in control group who have similar situation with individuals in case group. Therefore, we have the data of $Y_i(0)(i \in Treated.group)$. Thus, propensity score can be very useful for us to measure average treatment effect by only focusing on treated group(ATT).
+
+	
+	
+	
 	\subsubsection{Exploratory Data Analysis}
 	\subsection{Findings}
 	\subsection{Discussion}
