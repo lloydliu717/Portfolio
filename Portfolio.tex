@@ -1,21 +1,25 @@
 \documentclass{article}
 
 \usepackage{indentfirst}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{geometry}
 \geometry{left = 2.0cm,	right = 2.0cm,	top = 2.0cm, bottom = 2.0cm}
+
 \title{Portfolio of MSSP Projects}
 \author{Zichun Liu}
 
 \begin{document}
 	\maketitle
+	\tableofcontents
 	\section{Overview}
-	\paragraph{} As an important graduation requirement of MSSP, the portfolio is made up of project analysis reports that have been done within the one and a half year of the master program. In this portfolio, I archived eight main projects:
+	The purpose of this portfolio is to show the work of MSSP students on collaborative consulting projects. Throughout two semesters, students in MSSP formed the consulting groups and solved problems from the clients who were either within BU at different departments or outside of BU. We helped them with their research projects and provided statistical solutions by all kinds of ways. This portfolio consists of separate sections which summarize the background, data, modeling and findings of every project. The links to the codes on GitHub for most of the projects are in the reference section at the end of the portfolio. Due to some restrictions, some data and codes of the projects remain confidential. In this portfolio, I archived eight main projects:
 	\begin{itemize}
 		\item Ant anatomy and behavior research
 		\item Catalog study on women emancipation
 		\item Salmon habitation preference study
+		\item Visualization for Boston University Women Soccer Team
 		\item Measuring the impact of geriatric care among Medicare beneficiaries
 		\item R package: Single cell toolkit
 		\item Random Contamination and Select Response Styles affecting measures of fit and reliability in factor analysis
@@ -23,21 +27,60 @@
 		\item Recommender system on Consumer Unit dataset(ongoing)		
 	\end{itemize}
 
+	\section{Measuring the impact of geriatric care among Medicare beneficiaries}
+	This is a collaborative project conducted by the MSSP consulting team and Trinity Partners, LLC. The outcome was accepted by 22nd ISPOR annual meeting as a poster presentation. 
+	\subsection{Introduction \& Background} 
+	In 2015, there are almost 50 million people over 65 and 70 percent of them have two or more chronic conditions, which contributes to non-stopping, continuing costs of medicine and other medical services. In the previous studies geriatricians, doctors who meet the unique healthcare need of older adults, have been shown to have an influence on elderly patients, especially those with severe chronic diseases. 
+	
+	To form a better view of the impact of geriatrician on the aging population, we modeled the Medicare claim data between January 2010 and January 2015 to infer the effect of geriatric care on \textbf{longevity, cost, and the use of medical resources}. This paper measures the impact of geriatric care on patient outcomes
+	
+	\subsection{Data Format}
+	The study cohorts were created from claims spanning 2010-2014, representing a random 5\% sample of Medicare FFS beneficiaries that were aged 65+ in 2010. Patients with at least one geriatric care claim between (but not before) 2011-2014 were propensity score matched to those without any geriatric care claims from 2010-2014.
+	
+	For the purpose of studying the impact of geriatric care on patients, we converted the claim-based data to patient-based data. The number of claims in 2010 and CCI are calculated from the information between 2010-01-01 and 2010-12-31. Other variables are calculated or extracted from information between 2011-01-01 and 2014-12-31. 
+	
+	2 pair of sample datasets have been used in the analysis, being one for survival analysis and the other for cost and resource analysis.
+	
+	\subsection{Modeling \& Analysis}
+	\subsubsection{Methods}
+	To draw casual relationship from the Medicare data, a matched cohort analysis, \textbf{propensity score matching}, was performed, we used comparing patient outcomes among those with and without geriatrician care. \textbf{Survival rates, healthcare resource utilization (HCRU) and costs} were compared between matched cohorts.
+	
+	\paragraph{Propensity score}is the probability of being assigned treatment conditional on observed covariates, which we denote as $P(T=1|X)$. Here $X$ indicates a matrix of all pre-treatment covariates, $T$ indicates binary treatment corresponding to geriatric care. $T$ is 1 when there is geriatric care and $T$ is 0 when there is not. 
+	
+	Propensity score matching entails forming matched sets of subjects in case and control groups, who share a similar value of the propensity score. Subjects in case and control groups that are paired are close to each other, which is done by using nearest neighbor matching method.
+	
+	\paragraph{Survival Analysis} were performed to investigate the impact of geriatric care on longevity. The Kaplan-Meier estimate is a famous nonparametric maximum likelihood estimate of the survival function. The estimate is a step-wise empirical function which can be written as:
+	\begin{align*}
+	\hat{s}(t) &= 1, if \indent t < t_i\\
+	\hat{s}(t) &= \prod_{t_i\le t}[1 - \frac{d_i}{Y_i}], if \indent t \ge t_i
+	\end{align*} 
+	
+	Where we have order the event times as a sequence of ascending, e.g. $0 < t_1 < t_2 < ... < t_D$ . di is how many of individuals with an observed event at time $t_i$ and $Y_i$ is the number of individuals who are at risk at time $t_i$.
+	
+	And to make an accurate and solid comparison between the case and control groups in terms of the survival analysis, we constructed a Weibull regression model. The survival function for the Weibull distribution is:
+	$$S_T(t) = e^{-\lambda t^P} $$
+	
+	Where $\lambda$ is reparameterized in terms of predictor variables and regression parameters, and $p$ is the shape parameter which is held fixed for a parametric model.
+	
+	\paragraph{Cost analysis}used T-test after propensity score matching to compare the cost between case and control groups. 
+	\paragraph{Resource Utilization analysis} used Linear Regression Models after propensity score matching to compare the medical resources usage. The response variables are: Log-transformed claim numbers and log-transformed length of stay in hospital; The independent variable is whether there is geriatric treatment.
+	
+	\subsubsection{Results}
+	118,382 patients receiving geriatric care were identified, along with a random sample of 535,526 patients not receiving geriatric care. Samples of the cohorts were taken and propensity score matching was performed to create 10,000 matched pairs. Kaplan-Meier plots comparing the two matched cohorts indicated that, overall, the geriatric care group had shorter survival times than their counterparts. Among sicker patients, however, the analysis suggested that survival times were relatively longer in the geriatric care group. In terms of HCRU, patients receiving geriatric care were, on average, likely to have more inpatient, outpatient and physician office claims (62\%, 18\% and 49\% more, respectively). Mean monthly costs were comparable in the two matched cohorts (p=0.53).
+	
+	
+	\subsection{Conclusions}
+	Geriatric care has the potential to improve the longevity of those afflicted by multiple chronic conditions. Geriatricians’ focus on coordination of care increases the amount of healthcare resource utilization but costs are on par with patients not receiving geriatric care, possibly the result of support that is more efficient and preventative in nature. While only a small proportion of elderly patients receive geriatric care, this study suggests that more patients and the healthcare system at large could benefit from promoting the involvement of and increasing access to geriatricians.
+	\subsection{Discussion}
+	\subsubsection{Quality of Life}
+	There’s another aspect of life that’s not covered in our data – quality. How much pain or distressing physical symptoms do they experience on a daily basis? Are they depressed, anxious or do they sleep well at night? Most importantly, their functional status, are they highly dependent or able to manage ordinary, mundane daily activities? It’s also of great interest and importance to investigate whether geriatricians can make a difference for elderly in this aspect, for life has much more dimensions than just time and money. Therefore, for future analysis, another angle is to assess the quality of life of those elderly patients treated by geriatricians.
+	\subsubsection{Side effect of overuse of geriatric care on cost}	
+	For all case sample we have had resampled from the raw data, cost first decrease to the bottom until the number of months having geriatric care is around 25, and then cost increase after that. This also indicates that geriatric care won’t increase cost for patients or even decrease cost at first, but overuse of geriatric care can have side effects on cost.
+	\subsection{Appendix}
+
 	\section{Ant anatomy and behavior research}
 	\subsection{Introduction \& Background}
-	In this project, our client Darcy Gordon from Department of Biology is interested in the relationship between ant brain anatomy and motor information. Our team mainly focused on helping our client analyze the result of her experiment. The experiment focused on 3 types of ants(3 morphological groups) and tested their ability to detect chemical trails with different concentrations. 
-	
-	In the experiment, there are followign factors:
-	\begin{itemize}
-		\item three colonies(PR6,PR7,PR8) of ants and each contains
-		\item three morphological groups:
-			\subitem minor N= 17,
-			\subitem major N= 18, and
-			\subitem supersoldier N= 17 (total across all colonies).
-		\item three chemical trails with different concentrations: 0.0003, 0.001, 0.003
-	\end{itemize}
-	
-	Each individual ant was tested at each of the 3 chemical trails. The whole data set has 3*(17+18+17) = 156 observations. 
+	In this project, our client Darcy Gordon from Department of Biology is interested in the relationship between ant brain anatomy and motor information. Our team mainly focused on helping our client analyze the result of her experiment. The experiment focused on 3 types of ants(3 morphological groups) from 3 colonies and tested their ability to detect chemical trails with different concentrations. 
 
 	Based on our conversations, client is interested in:
 	\begin{enumerate}
@@ -51,19 +94,22 @@
 	\end{enumerate}
 	
 	\subsection{Data Format}
-	We have two kinds of outcomes, the first one is binary(detection or not,1 or 0), the second one is the proportion of detected trail crosses (on a scale of 0-1). The proportions are calculated by dividing the total number of turns an ants takes along an artificial trail by the total number of times it encountered the trail when running a behavioral assay. This corresponds to the trail following data sheet our client sent as “proportion detected” which is turns/ (turns + crosses). It gives us information about how well they followed a trail not just if they are able to detect it. 
+	Because each individual ant was tested at each of the 3 chemical trails. The whole data set has 3*(17+18+17) = 156 observations. 
+	
+	There are two kinds of outcomes, the first one is binary(detection or not,1 or 0), the second one is the proportion of detected trail crosses (on a scale of 0-1). It gives us information about how well they followed a trail not just if they are able to detect it. 
 	
 	However, the turns and crosses have more information than the proportions. The detection data could be treated that it is from the proportions (0 proportions indicate 0 detection while not 0 proportions indicate 1 detection).
 	
 	
 
 	\subsection{Modeling \& Analysis}
-	After the discussion with our client, we agreed to work on the following two models:  \\
-	 
+	\subsubsection{Methods}
+	After the discussion with our client, we agreed to work on the following two models: \\
+	
 	\noindent\textbf{Model 1: Binomial Model with turns and crosses information as responses}  
 
 	\begin{align*}
-	y_i &\sim Bin(n_i,p_i)\\
+	y_i &\sim Binomial(n_i,p_i)\\
 	p_i &= logit^{-1}(\beta_0 + \beta_sx_{is} + \beta_cx_{ic} + \beta_{sc}x_{is}:x_{ic} + \alpha_{j[i]})\\
 	\alpha_j &\sim N(0, \sigma^2_a),j=1,...,J
 	\end{align*}
@@ -79,67 +125,14 @@
 	\end{align*}  
 	
 	Where $i$ indexes each trial, and $j$ indexes each ant. In this model we collapsed the crosses and turns information into binary outcomes, that is, if the number of turns is not zero, then there is a success (outcome 1) for this single trial which includes multiple turns and crosses. We assume these macro trials are independent.
+
+	\subsubsection{Model 1 Results}
+	\paragraph{linear separation problem}
+	At first we enroll the interaction term in the logistic mixed effect model. We found something strange happens: the standard error of $subcasteminor:concentrationlow$ is extremely large. It is called the linear separation problem. This phenomenon happens due to the sudden change in response when we change the value of discrete predictors. 
 	
-		\subsubsection{Exploratory Data Analysis}
-		\noindent\textbf{Model 1: turns and crosses information as responses}\\\\
-		The rate of detection per ant is plotted for the subcaste and the concentration. 
-		.\\
-		.\\
-		.\\
-		.\\
-		.\\
-		Pic 1.\\
-		.\\
-		.\\
-		.\\
-		.\\
-		. 
+	\paragraph{Remedy}One necessary condition of linear separation is that all the predictors should be discrete, so one simple remedy method is to use continuous concentrations: 0.0003, 0.001, 0.003. Because we are considering interaction term, the scales of predictors should be almost the same. I multiplied each concentration by 1000.
 		
-		The trends are not parallel with each other from low to high concentration when the subcaste is minor, major and supersoldier indicating there is difference in how ants reacts to concentration for different subcaste. \\
 		
-		\noindent\textbf{Model 2: binary outcomes as responses}\\\\
-		Count the 0’s and 1’s for each subcaste level and each concentration level.
-		.\\
-		.\\
-		.\\
-		.\\
-		.\\
-		Pic 2.\\
-		.\\
-		.\\
-		.\\
-		.\\
-		. 
-		
-		Although we lost some information when converting the turns and crosses into the outcomes, we can use the histograms above to get a sense whether there exist interaction terms. In general, the proportion of 1’s increases from minor to supersoldier in subcaste and from low to high in concentration. There is no strong evidence showing there exist interaction terms. 
-		
-		However, being more precise, let’s focus on the 4 upper-left subplots. There are all 0’s in the minor \& low class and there are some 1’s in the major \& low class, but there are more 1’s in minor \& medium class than that in major \& medium class. This phenomenon shows the trail detecting ability is growing faster in minor than that in major subcaste, at least when we increases the concentration from low to medium, but we don’t know how strong this effect is. Thus we still want to enroll interaction term when fitting Model 2 and see if the interaction term is significant or not.		
-		
-	\subsection{Model 1 Fitting}
-		\subsubsection{linear separation problem}
-		Let’s enroll the interaction term in the logistic mixed effect model. We will find something strange happens: the standard error of $subcasteminor:concentrationlow$ is too large. It is called the linear separation problem. This phenomenon happens due to the sudden change in response when we change the value of discrete predictors. Use our case as an example, we could get the reference level is subcaste major and concentration high. In this situation, there should be a lot of data points where turns are not equal to 0. We also know that when in the subcaste minor and low concentration situation, no ant has any turns, so the standard error of $subcasteminor:concentrationlow$ explodes. We can also interpret this phenomenon in this way: some linear combination of the predictors could nearly separate the response classes. It is where the term “linear separation” comes from.
-		.\\
-		.\\
-		.\\
-		.\\
-		.\\
-		R output.\\
-		.\\
-		.\\
-		.\\
-		.\\
-		. 
-		\subsubsection{Remedy: convert the format of concentration to numeric}
-		One necessary condition of linear separation is that all the predictors should be discrete, so one simple remedy method is to use continuous concentrations: 0.0003, 0.001, 0.003. Because we are considering interaction term, the scales of predictors should be almost the same. I multiplied each concentration by 1000.
-		.\\
-		.\\
-		.\\
-		R output.\\
-		.\\
-		.\\
-		.
-		
-		We will find that now there is no linear separation. The following plot shows us that there is the supersoldier ant has a less sleep increase of detection probability when concentration goes up, which indicates we should have the interaction term. The negative value of $subcastesupersoldier:concentration\_n$ coefficient agrees this.
 		.\\
 		.\\
 		.\\
@@ -147,107 +140,138 @@
 		.\\
 		.\\
 		.
-		\subsubsection{Prediction}
-		If we don’t specify the ant ID in prediction, we need to add variance from random effect and get larger prediction intervals. The following prediction intervals are computed from simulation, providing empirical 2.5\%, 50\%(median), 97.5\% quantiles as well as the empirical means of the success probabilities, which are listed as the last number in each category.\\
-		.\\
-		.\\
-		.\\
-		R output.\\
-		.\\
-		.\\
-		.	
-		
-		If we use ant ID in prediction, we will get small prediction intervals. The results are in the “trail\_following\_pred\_intervals.csv”, headed with “crossturn”.
-	\subsection{Model 2 Fitting}
-	\subsubsection{Linear separation problem and remedy}
-	Using predictor “concentration” with 3 levels low, medium, high, we came across the linear separation again. And as what we have done in the last section, use numeric concentration and again scale them (times 1000) and refit the model:\\
-	.\\
-	.\\
-	.\\
-	R output.\\
-	.\\
-	.\\
-	.		
+	\paragraph{Prediction}
+	If we don’t specify the ant ID in prediction, we need to add variance from random effect and get larger prediction intervals. If we use ant ID in prediction, we will get small prediction intervals. The corresponding results are generated through 'predictInterval' function in R.
+	\subsubsection{Model 2 Results}
+	\paragraph{Linear separation problem and remedy}
+	Using predictor “concentration” with 3 levels low, medium, high, we came across the linear separation again. And as what we have done in the last section, use numeric concentration and again scale them (times 1000) and refit the model.
 	
-	The interaction terms are not significant, but the signs before the coefficients of the interactions are the same as those in Section 4.2. Keeping the interaction term will not hurt the predictions. The plots below also showed that there is some difference between the left and right plot, although not significant.
-	\subsubsection{Prediction}
-	We can get similar prediction interval for each combination of subcaste and concentration level without ant ID, via the same simulation method. The prediction intervals are also in the “trail\_following\_pred\_intervals.csv”, headed with “binary”.
-	.\\
-	.\\
-	.\\
-	R output.\\
-	.\\
-	.\\
-	.		
+	The interaction terms are not significant, but the signs before the coefficients of the interactions are the same as those in Section 4.2. Keeping the interaction term will not hurt the predictions. The plots below also showed that there is some difference between the left and right plot, although not significant.	
+		.\\
+		.\\
+		.\\
+		R plot.\\
+		.\\
+		.\\
+		.
+	\paragraph{Prediction}
+	We can get similar prediction interval for each combination of subcaste and concentration level without ant ID, via the same simulation method. The prediction intervals are also generated through 'predictInterval' function in R.
 	
-	Note that the prediction and confidence interval is different from that in Section 4.3 because the definition of “success” is different: in Section 4, turns means successes while in Section 5, when outcome is 1, there is a success.
+	\subsection{Conclusion}
+	From both models, we can see obviously that the increase in concentration will increase the detection rate. And different ants have a distinction in detecting chemical trails: Supersoldiers have the highest detection rate and Minors have the lowest detection rate. What's more, we may tell that the effect of concentration is different for different subcaste from the interaction term in our model.
+	
 	\subsection{Discussion}
 	\subsubsection{Limitations of our analysis}
 	There are some limitations of our analysis, because of these two assumptions we made: 
 	\begin{enumerate}
 		\item We are assuming the turns are independent from one another, which we have known they are not true.
-		\item We are assuming homogeneity across the colonies, because we don’t include colony effect in our analysis. See Section 2.6.2.
+		\item We are assuming homogeneity across the colonies, because we don’t include colony effect in our analysis. See Section 2.5.2.
 	\end{enumerate} 
+	
 	\subsubsection{More about random effect: the colony effect}
-	We tried putting the colony effect in the model but we encountered numerical issues again and had some problems in convergence. Thus we were unable to include the colony effect by now. If you want to add colony effect urgently, we are happy to work on applying the regularization methods mentioned below to address the numerical issues and include colony effect into analysis. In other case, we’d like to include ant ID as random effect only as what we did in Section 2.1-2.5.
+	We tried putting the colony effect in the model but we encountered numerical issues again and had some problems in convergence. Thus we were unable to include the colony effect by now. If you want to add colony effect urgently, we are happy to work on applying the regularization methods mentioned below to address the numerical issues and include colony effect into analysis. In other case, we’d like to include ant ID as random effect only as what we did in Section 2.1-2.4.
+	
 	\subsubsection{Future analysis: fully addressing the numerical issues}
 	To fully address the numerical issues including linear separation, we would probably need to use some regularization methods in Bayesian framework. The Bayesian regularization methods won’t provide p-values which is required in many fields. We will be happy to make suggestions if our client's field don’t have a strict rule about providing p-values.
 	
-	
-	
-	
-	
-	\section{Measuring the impact of geriatric care among Medicare beneficiaries}
-	\subsection{Introduction \& Background} 
-	This is a collaboration project with the Trinity Partners. 
-	
-	Rising medical cost due to aging population is one of the top concerns in the US.  There are currently almost 50 million people over 65 and 70 percent of them have two or more chronic conditions, which contribute to non-stopping, continuing costs of medicine and other medical services. This population cost Medicare nearly 650 billion dollars just looking at year 2015.  
-	
-	As the result, doctors who focus on elderly patients, geriatricians are gaining interest, both for the system and general public, to see whether geriatric care can provide better outcomes, either clinical or economical, for treating the elderly population. 
-	
-	Thus, our research focus on three main questions: 
-	\begin{itemize}
-		\item Would geriatric care increase the longevity of the elderly population? 
-		\item Would geriatric care reduce the costs for the Medicare system?
-		\item Would geriatric care reduce the medical resources utilization?
-	\end{itemize}
-	   	
+	\section{Catalog study on women emancipation}
+	asdf
+	\subsection{Introduction \& Background}
+	asdf
 	\subsection{Data Format}
-	The data we have was originated from Medicare claim data from Jan 1st 2010 to Dec 31st 2014, in which each observation is a claim report in the system. 
-	
-    For the purpose of studying the impact of geriatric care on patients, we converted the claim-based data to patient-based data. The number of claims in 2010 and CCI are calculated from the information between 2010-01-01 and 2010-12-31. Other variables are calculated or extracted from information between 2011-01-01 and 2014-12-31. 
-    
-    2 pair of sample datasets have been used in the analysis, being one for survival analysis and the other for cost and resource analysis.
-
-	
-	\subsection{Methods}
-	\subsubsection{Charlson Comorbidity Index}
-	The Charlson Comorbidity Index (CCI) is the predicted one-year mortality for a patient with one or more chronic conditions (Charlson, M,1987). Given the fact that there are nearly 70\% of Medicare beneficiaries in the U.S. have multiple chronic diseases, the CCI is applied and calculated for each patient in order to control for patients’ health condition among case and control groups. 
-	
-	The CCI takes into account 17 chronic conditions and assigns each of them with a weight of 1, 2, 3, or 6, based on the associated risk of dying. Then the weights are summed for each patient in order to attain a total score. The range of a patient’s CCI is 0-30.
-	
-	\subsubsection{Propensity Score Matching}
-	Propensity score is the probability of being assigned treatment conditional on observed covariates, which we denote as $P(T=1|X)$. Here $X$ indicates a matrix of all pre-treatment covariates, $T$ indicates binary treatment corresponding to geriatric care. $T$ is 1 when there is geriatric care and $T$ is 0 when there is not.  
-	
-	Propensity score matching entails forming matched sets of subjects in case and control groups, who share a similar value of the propensity score. Subjects in case and control groups that are paired are close to each other, which is done by using nearest neighbor matching method.
-	
-	\subsubsection{Causal Inference}
-	Causal inference for individual $i$ is the comparison of the outcome $Y_i(1)$ if he/she receive the treatment and the outcome $Y_i(0)$ if he/she does not receive the treatment. In general, there are two measurement of causal inference, Average Treatment Effect(ATE) and Average Treatment Effect only focus on Treated group(ATT). 
-	
-	ATE is measured by $E(Y_i(1)-Y_i(0)|x,i\in All.groups)$, where $x$ is control variables. ATT is measured by $E(Y_i(1)-Y_i(0)|x,i\in Treated.group)$ 
-	
-	Propensity score matching is a popular method to addressing this problem. After using propensity score matching, we can find individuals in control group who have similar situation with individuals in case group. Therefore, we have the data of $Y_i(0)(i \in Treated.group)$. Thus, propensity score can be very useful for us to measure average treatment effect by only focusing on treated group(ATT).
-
-	
-	
-	
-	\subsubsection{Exploratory Data Analysis}
-	\subsection{Findings}
+	adf
+	\subsection{Modeling \& Analysis}
+	asdf
+	\subsection{Conclusion}
+	adf
 	\subsection{Discussion}
-	\subsection{Appendix}
+	asdf
 	
+	\section{Salmon habitation preference study}
+	asdf
+	\subsection{Introduction \& Background}
+	asdf
+	\subsection{Data Format}
+	asdf
+	\subsection{Modeling \& Analysis}
+	asdf
+	\subsection{Conclusion}
+	asdf
+	\subsection{Discussion}
+	asdf
 	
+	\section{Visualization for Boston University Women Soccer Team}
+	asdf
+	\subsection{Introduction \& Background}
+	fa\\asdf
+	\subsection{Data Format}
+	asdf
+	\subsection{Visualization}
+	asdf
+	\subsection{Discussion}
+	asdf	
 	
-	\section[section3]{Ant anatomy and behavior research}
+	\section{R package: SingleCellTK(ongoing)}
+	asdf
+	\subsection{Introduction \& Background}
+	sadf
+	\subsection{Data Format}
+	asdf
+	\subsection{Modeling \& Analysis}
+	adsf
+	\subsection{Conclusion}
+	asdf
+	\subsection{Discussion}
+	asdf
+
+	\section{R package: Celda(ongoing)}
+	asdf
+	\subsection{Introduction \& Background}
+	asdf
+	\subsection{Data Format}
+	asdf
+	\subsection{Modeling \& Analysis}
+	asdf
+	\subsection{Conclusion}
+	asdf
+	\subsection{Discussion}
+	adsf
 	
+	\section{Random Contamination and Select Reponse Styles affecting measures of fit and reliability in factor analysis(ongoing)}
+	asdf
+	\subsection{Introduction \& Background}
+	asdf
+	\subsection{Data Format}
+	asdf
+	\subsection{Modeling \& Analysis}
+	asdf
+	\subsection{Conclusion}
+	adsf
+	\subsection{Discussion}
+	adsf
+	
+	\section{Recommender system on Consumer Unit dataset(ongoing)}
+	adsf
+	\subsection{Introduction \& Background}
+	asdf
+	\subsection{Data Format}
+	asdf
+	\subsection{Modeling \& Analysis}
+	asdf
+	\subsection{Conclusion}
+	asdf
+	\subsection{Discussion}
+	asdf
+	
+	\section{Acknowledgements}
+	Projects included in the portfolio received support and guidance from:
+	\begin{itemize}
+		\item Professor Eric D. Kolaczyk in the Mathematics and Statistics at Boston University.
+		\item Professor Masanao Yajima in the Mathematics and Statistics at Boston University.
+		\item Professor Gregg A. Harbaugh in the School of Education at Boston University
+		\item Teaching fellow Jun Li in the Mathematics and Statistics at Boston University.
+	\end{itemize}
+	\section{Reference}
+	Projects available at https://github.com/lloydliu717/Portfolio
+
 \end{document}

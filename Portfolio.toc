@@ -1,0 +1,76 @@
+\contentsline {section}{\numberline {1}Overview}{2}
+\contentsline {section}{\numberline {2}Measuring the impact of geriatric care among Medicare beneficiaries}{3}
+\contentsline {subsection}{\numberline {2.1}Introduction \& Background}{3}
+\contentsline {subsection}{\numberline {2.2}Data Format}{3}
+\contentsline {subsection}{\numberline {2.3}Modeling \& Analysis}{3}
+\contentsline {subsubsection}{\numberline {2.3.1}Methods}{3}
+\contentsline {paragraph}{Propensity score}{3}
+\contentsline {paragraph}{Survival Analysis}{3}
+\contentsline {paragraph}{Cost analysis}{4}
+\contentsline {paragraph}{Resource Utilization analysis}{4}
+\contentsline {subsubsection}{\numberline {2.3.2}Results}{4}
+\contentsline {subsection}{\numberline {2.4}Conclusions}{4}
+\contentsline {subsection}{\numberline {2.5}Discussion}{4}
+\contentsline {subsubsection}{\numberline {2.5.1}Quality of Life}{4}
+\contentsline {subsubsection}{\numberline {2.5.2}Side effect of overuse of geriatric care on cost}{4}
+\contentsline {subsection}{\numberline {2.6}Appendix}{5}
+\contentsline {section}{\numberline {3}Ant anatomy and behavior research}{5}
+\contentsline {subsection}{\numberline {3.1}Introduction \& Background}{5}
+\contentsline {subsection}{\numberline {3.2}Data Format}{5}
+\contentsline {subsection}{\numberline {3.3}Modeling \& Analysis}{5}
+\contentsline {subsubsection}{\numberline {3.3.1}Methods}{5}
+\contentsline {subsubsection}{\numberline {3.3.2}Model 1 Results}{6}
+\contentsline {paragraph}{linear separation problem}{6}
+\contentsline {paragraph}{Remedy}{6}
+\contentsline {paragraph}{Prediction}{6}
+\contentsline {subsubsection}{\numberline {3.3.3}Model 2 Results}{6}
+\contentsline {paragraph}{Linear separation problem and remedy}{6}
+\contentsline {paragraph}{Prediction}{6}
+\contentsline {subsection}{\numberline {3.4}Conclusion}{6}
+\contentsline {subsection}{\numberline {3.5}Discussion}{6}
+\contentsline {subsubsection}{\numberline {3.5.1}Limitations of our analysis}{6}
+\contentsline {subsubsection}{\numberline {3.5.2}More about random effect: the colony effect}{7}
+\contentsline {subsubsection}{\numberline {3.5.3}Future analysis: fully addressing the numerical issues}{7}
+\contentsline {section}{\numberline {4}Catalog study on women emancipation}{7}
+\contentsline {subsection}{\numberline {4.1}Introduction \& Background}{7}
+\contentsline {subsection}{\numberline {4.2}Data Format}{7}
+\contentsline {subsection}{\numberline {4.3}Modeling \& Analysis}{7}
+\contentsline {subsection}{\numberline {4.4}Conclusion}{7}
+\contentsline {subsection}{\numberline {4.5}Discussion}{7}
+\contentsline {section}{\numberline {5}Salmon habitation preference study}{7}
+\contentsline {subsection}{\numberline {5.1}Introduction \& Background}{7}
+\contentsline {subsection}{\numberline {5.2}Data Format}{7}
+\contentsline {subsection}{\numberline {5.3}Modeling \& Analysis}{7}
+\contentsline {subsection}{\numberline {5.4}Conclusion}{7}
+\contentsline {subsection}{\numberline {5.5}Discussion}{8}
+\contentsline {section}{\numberline {6}Visualization for Boston University Women Soccer Team}{8}
+\contentsline {subsection}{\numberline {6.1}Introduction \& Background}{8}
+\contentsline {subsection}{\numberline {6.2}Data Format}{8}
+\contentsline {subsection}{\numberline {6.3}Visualization}{8}
+\contentsline {subsection}{\numberline {6.4}Discussion}{8}
+\contentsline {section}{\numberline {7}R package: SingleCellTK(ongoing)}{8}
+\contentsline {subsection}{\numberline {7.1}Introduction \& Background}{8}
+\contentsline {subsection}{\numberline {7.2}Data Format}{8}
+\contentsline {subsection}{\numberline {7.3}Modeling \& Analysis}{8}
+\contentsline {subsection}{\numberline {7.4}Conclusion}{8}
+\contentsline {subsection}{\numberline {7.5}Discussion}{8}
+\contentsline {section}{\numberline {8}R package: Celda(ongoing)}{8}
+\contentsline {subsection}{\numberline {8.1}Introduction \& Background}{8}
+\contentsline {subsection}{\numberline {8.2}Data Format}{9}
+\contentsline {subsection}{\numberline {8.3}Modeling \& Analysis}{9}
+\contentsline {subsection}{\numberline {8.4}Conclusion}{9}
+\contentsline {subsection}{\numberline {8.5}Discussion}{9}
+\contentsline {section}{\numberline {9}Random Contamination and Select Reponse Styles affecting measures of fit and reliability in factor analysis(ongoing)}{9}
+\contentsline {subsection}{\numberline {9.1}Introduction \& Background}{9}
+\contentsline {subsection}{\numberline {9.2}Data Format}{9}
+\contentsline {subsection}{\numberline {9.3}Modeling \& Analysis}{9}
+\contentsline {subsection}{\numberline {9.4}Conclusion}{9}
+\contentsline {subsection}{\numberline {9.5}Discussion}{9}
+\contentsline {section}{\numberline {10}Recommender system on Consumer Unit dataset(ongoing)}{9}
+\contentsline {subsection}{\numberline {10.1}Introduction \& Background}{9}
+\contentsline {subsection}{\numberline {10.2}Data Format}{9}
+\contentsline {subsection}{\numberline {10.3}Modeling \& Analysis}{9}
+\contentsline {subsection}{\numberline {10.4}Conclusion}{10}
+\contentsline {subsection}{\numberline {10.5}Discussion}{10}
+\contentsline {section}{\numberline {11}Acknowledgements}{10}
+\contentsline {section}{\numberline {12}Reference}{10}
