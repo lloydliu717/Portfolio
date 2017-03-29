@@ -5,6 +5,15 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+
+\graphicspath{ {images/} }
+\setlength{\arrayrulewidth}{1mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
+
 \geometry{left = 2.0cm,	right = 2.0cm,	top = 2.0cm, bottom = 2.0cm}
 
 \title{Portfolio of MSSP Projects}
@@ -13,6 +22,12 @@
 \begin{document}
 	\maketitle
 	\tableofcontents
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
 	\section{Overview}
 	The purpose of this portfolio is to show the work of MSSP students on collaborative consulting projects. Throughout two semesters, students in MSSP formed the consulting groups and solved problems from the clients who were either within BU at different departments or outside of BU. We helped them with their research projects and provided statistical solutions by all kinds of ways. This portfolio consists of separate sections which summarize the background, data, modeling and findings of every project. The links to the codes on GitHub for most of the projects are in the reference section at the end of the portfolio. Due to some restrictions, some data and codes of the projects remain confidential. In this portfolio, I archived eight main projects:
 	\begin{itemize}
@@ -49,6 +64,13 @@
 	
 	Propensity score matching entails forming matched sets of subjects in case and control groups, who share a similar value of the propensity score. Subjects in case and control groups that are paired are close to each other, which is done by using nearest neighbor matching method.
 	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\textwidth]{TrinityPSM}
+		\caption{Propensity Score Matching}
+	\end{figure}
+
+
 	\paragraph{Survival Analysis} were performed to investigate the impact of geriatric care on longevity. The Kaplan-Meier estimate is a famous nonparametric maximum likelihood estimate of the survival function. The estimate is a step-wise empirical function which can be written as:
 	\begin{align*}
 	\hat{s}(t) &= 1, if \indent t < t_i\\
@@ -61,6 +83,12 @@
 	$$S_T(t) = e^{-\lambda t^P} $$
 	
 	Where $\lambda$ is reparameterized in terms of predictor variables and regression parameters, and $p$ is the shape parameter which is held fixed for a parametric model.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\textwidth]{TrinitySurvival}
+		\caption{Survival Analysis}
+	\end{figure}
 	
 	\paragraph{Cost analysis}used T-test after propensity score matching to compare the cost between case and control groups. 
 	\paragraph{Resource Utilization analysis} used Linear Regression Models after propensity score matching to compare the medical resources usage. The response variables are: Log-transformed claim numbers and log-transformed length of stay in hospital; The independent variable is whether there is geriatric treatment.
@@ -132,14 +160,12 @@
 	
 	\paragraph{Remedy}One necessary condition of linear separation is that all the predictors should be discrete, so one simple remedy method is to use continuous concentrations: 0.0003, 0.001, 0.003. Because we are considering interaction term, the scales of predictors should be almost the same. I multiplied each concentration by 1000.
 		
-		
-		.\\
-		.\\
-		.\\
-		R plot.\\
-		.\\
-		.\\
-		.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{AntModel1plot}
+		\caption{Model Fit}
+	\end{figure}
+	
 	\paragraph{Prediction}
 	If we don’t specify the ant ID in prediction, we need to add variance from random effect and get larger prediction intervals. If we use ant ID in prediction, we will get small prediction intervals. The corresponding results are generated through 'predictInterval' function in R.
 	\subsubsection{Model 2 Results}
@@ -147,13 +173,13 @@
 	Using predictor “concentration” with 3 levels low, medium, high, we came across the linear separation again. And as what we have done in the last section, use numeric concentration and again scale them (times 1000) and refit the model.
 	
 	The interaction terms are not significant, but the signs before the coefficients of the interactions are the same as those in Section 4.2. Keeping the interaction term will not hurt the predictions. The plots below also showed that there is some difference between the left and right plot, although not significant.	
-		.\\
-		.\\
-		.\\
-		R plot.\\
-		.\\
-		.\\
-		.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{AntModel2plot}
+		\caption{Model Fit}
+	\end{figure}
+	
 	\paragraph{Prediction}
 	We can get similar prediction interval for each combination of subcaste and concentration level without ant ID, via the same simulation method. The prediction intervals are also generated through 'predictInterval' function in R.
 	
@@ -175,41 +201,186 @@
 	To fully address the numerical issues including linear separation, we would probably need to use some regularization methods in Bayesian framework. The Bayesian regularization methods won’t provide p-values which is required in many fields. We will be happy to make suggestions if our client's field don’t have a strict rule about providing p-values.
 	
 	\section{Catalog study on women emancipation}
-	asdf
 	\subsection{Introduction \& Background}
-	asdf
+	In this project, our client Ashley Tartarilla from Department of Psychological and Brain Sciences is interested in the relationship between levels of gendered nonverbal behavior to levels of women's emancipation for each country represented. To help our client approach to their research goals, our team mainly focused on analyzing the data.
+	
+	Our client have qualitatively coding images from toy catalogs from different countries worldwide for gendered nonverbal behavior. Based on our conversation, client is interested in: 
+	\begin{enumerate}
+		\item Recategorized 38 measurements into 6 variables
+		\item Compute a table of proportions, for each gender, for each country, for each composite variable
+		\item Perform T-test and permutation test between genders for each of the 6 coding variables and visualised them
+		\item Convert the test scores from T-test and permutation test into z-scores by the inverse probability transformation and do some visualization
+	\end{enumerate}
+
 	\subsection{Data Format}
-	adf
-	\subsection{Modeling \& Analysis}
-	asdf
+	To be added
+	
+	\subsection{Modeling \& Outcome}
+	\subsubsection{The two-sample t-statistics and converted z scores}
+	According our clients’ advice, we created composite scores by grouping similar variables together. Initially we have 38 variables for each gender, after grouping we have 3 composite variables for each gender, 6 in total: Feminine emotional expression, Masculine emotional expression, Feminine nonverbal behavior, Masculine nonverbal behavior, Feminine objects in picture and Masculine objects in picture. 
+	\subsubsection{The two-sample t-statistics and converted z scores}
+	We computed the two-sample t-statistics between genders for each country and each composite variable.Since we have 20 countries and 6 composite variables, we have conducted 120 t tests totally and a t-statistic matrix with 20 columns(countries) and 6 rows(composite variables) was computed. These t tests have different degrees of freedom due to different sample size, so we converted the all the 120 t statistics into standard normal distribution scale by inverse probability transformation, for more convenient illustration.
+	\subsubsection{The Permutation test p values and converted z scores}
+	For formal testing, permutation tests are more reliable for our experiment compared with t-tests; as t-test requires normality of samples. So we conducted permutation tests between genders for each country and each composite variable, following the same logic as the t tests described above. Again, since we have 20 countries and 6 composite variables, we have conducted 120 permutation tests totally, and constructed a matrix of permutation tests p values, with 20 columns(countries) and 6 rows(composite variables). P values of permutation tests measures the probability of the 2 vectors being tested coming from the same distribution, and the values range from 0 to 1. We then converted all the 120 p values into standard normal distribution scale(converted z scores), by inverse probability transformation.
+	\subsubsection{Data Visualisation and interpretation of heatmaps}
+	Even though ‘T tests Z-scores Heatmap’ gives us similar results, we focus on the interpretation of ‘Permutation Z-score Heatmap’; since permutation tests results are more reliable in our experiment. Generally, we can see 3 kinds of colors in the heatmap. The color purple means ‘no significant difference’, color blue means ‘girls are doing this more than boys’, color red means ‘boys are doing this more than girls’.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{CatalogHeatmap1}
+		\caption{Heatmap T test}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{CatalogHeatmap2}
+		\caption{Heatmap permutation test}
+	\end{figure}
+	
+	We have some really interesting findings. Regarding ‘Feminine Emotion Expression’ and ‘Masculine Emotion Expression’, we can see that there is not much difference across the countries. Nonverbal behavior differences between genders are more obvious, while objects in picture differences are significant cross most of the countries.
+	\subsubsection{Correlation between permutation\&t tests z-scores and GGI}
+	We calculated the correlation between GGI of each country and visualised it. To interpret this plot, differences in feminine nonverbal behaviors, feminine emotion expression and masculine objects are positively correlated with GGI; the difference in feminine nonverbal behaviors has the largest positive correlation with GGI. While differences in feminine objects, masculine nonverbal behaviors and masculine emotion expression are negetively correlated with GGI.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.6\textwidth]{CatalogCorrelation}
+		\caption{Correlation Between GGI and permutation test scores}
+	\end{figure}
+	
 	\subsection{Conclusion}
-	adf
-	\subsection{Discussion}
-	asdf
+	In this project, our client mainly want some visualization result to support their theory. And after discussion we have some very practical tasks. Through our work. We can have a better sense of how Women's emancipation in a country can be related to some of nonverbal behaviors of children by compress measurements into composite variables and perform permutation tests.
 	
 	\section{Salmon habitation preference study}
-	asdf
 	\subsection{Introduction \& Background}
-	asdf
-	\subsection{Data Format}
-	asdf
-	\subsection{Modeling \& Analysis}
-	asdf
-	\subsection{Conclusion}
-	asdf
-	\subsection{Discussion}
-	asdf
+	Our client David Minkoff is from BU Marine Program. In his project, Juvenile salmon were placed in a 2-choice maze to determine preference between 2 odors administered into the water column. Laminar flow was established through the maze, ensuring that no mixing of odors occurred from one side to the other. The location of the fish on one or the other side of the maze was observed every 5 seconds for a duration of 2 minutes, after which the sides on which odor was administered was switched. The location of the fish was again observed for an additional 2 minutes (number of data points per fish = 24 time points before odor side-switch + 24 time points after side switch = 48 total data points per fish). Three different odor choice scenarios were tested with n=36 fish for each scenario.
 	
-	\section{Visualization for Boston University Women Soccer Team}
-	asdf
-	\subsection{Introduction \& Background}
-	fa\\asdf
+	Our client came to with with research question: Do fish prefer the odor to expose when they grow-up over the others? And his expectation is that fish prefer the odor to expose when they grow-up over the others. 
 	\subsection{Data Format}
-	asdf
+	The data we used was our client's experiment data. In his experiment, there are 3 kinds of odors: A, B and C:
+	\begin{itemize}
+		\item A: well/brook water with Arginine, for fish from well/brook water accordingly
+		\item B: odor given off by other fish
+		\item C: control, which is still water
+	\end{itemize}
+	
+	There are two kinds of environments: Brook water and well water. And within each environment, half of the fish are raised with treatment, half are control group.
+	
+	The experiment are done as follows, the rows show the average proportion of (turn to A)/(Total record)
+	
+	\begin{tabular}{ |p{2cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
+		\hline
+		\multicolumn{5}{|c|}{Experiments} \\
+		\hline
+		Tables& Well water treatment &Well water control &Brook water treatment &Brook water control\\
+		\hline
+		A vs B   & 0.44, N=35   &0.42, N=36&0.56, N=36&0.48, N=36\\
+		A vs C 	 & 0.44, N=36  	&0.44, N=36&0.52, N=36&0.50, N=33\\
+		\hline
+	\end{tabular}\\
+	
+	When we focus on the table: A vs B and A vs C, the treatment proportions are a little higher, which is a weak evidence supporting the expectation.
+
+	According to the research question and the data format, we choose to use if the fish turned to Arginine as response, which is binary when we decomposing the original data into independent measures. That is, take each measurement as an observation.
+	
+	Predictors are:
+	\begin{itemize}
+		\item Hatch in Brook water (True or False)
+		\item Hatch in Treatment (True or False)
+		\item Arginine on Left (True or False)
+		\item the other odor (B or C)
+	\end{itemize}
+
+	Note that if don’t use the whole data, some predictors can’t be added in. We will discuss it more in the following sections. 
+	
+	Random effect: fish ID
+
+	\subsection{Modeling \& Analysis}
+	\subsubsection{Exploratory Data Analysis}
+	We are interested in how fish (treatment or control) perform in A vs B or C condition, so we make the following plot:
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\textwidth]{EDAsalmon}
+		\caption{EDA}
+		\label{fig:eda_salmon}
+	\end{figure}
+	
+	Controlling other conditions the same and varying the fish grow-up condition (treatment or control), for example, comparing well treat A vs B and well control A vs B. We will always find the result always tends to support the expectation in Section 5.1, although the evidence still seems weak.
+	
+	\subsubsection{Modeling}
+	Let us not consider the interaction effect in this part. We perform the following modeling:
+	\begin{enumerate}
+		\item Model 1: combine “Brook Control A vs B”, “Brook Treatment A vs B”, predictors: “Hatch with Treatment”, “Arginine on Left”, random effect: “Fish ID”
+		\item Model 2: combine “Brook Control A vs C”, “Brook Treatment A vs C”, predictors: “Hatch with Treatment”, “Arginine on Left”, random effect: “Fish ID”
+		\item Model 3: combine all the 4 data sets, predictors:“Hatch with Treatment”, “Arginine on Left”, “the other odor”, random effect: “Fish ID”.
+	\end{enumerate}
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	\subsubsection{Analysis}
+	\paragraph{Model 1}
+	We fit the model 1 and the results are as follows:
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\textwidth]{Salmonmodel1}
+		\caption{Model1}
+	\end{figure}
+	
+	From the p-value and coefficient of Hatch with Treatment, support the expectation, but only nearly significant.
+	
+	\paragraph{Model 2}
+	We fit the model 2 and the results are as follows:
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\textwidth]{Salmonmodel2}
+		\caption{Model2}		
+	\end{figure}
+	
+	From the p-value and coefficient of Hatch with Treatment, support the expectation, but not significant.
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+	.\\
+
+	\paragraph{Model 3}
+	Finally we fit the model 2 and the results are as follows:
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\textwidth]{Salmonmodel3}
+		\caption{Model3}
+	\end{figure}
+	
+	From the p-value and coefficient of Hatch with Treatment, support the expectation, but only nearly significant. It seems that the other odor will not affect the preference of fish, because the p-value of ‘the\_other\_odor’ suggest that this coefficient is not significant.
+	
+	\subsection{Conclusion}
+	We approach to the answer through descriptive statistics, EDA and statistical modeling, and we see the results from Data Description, EDA and Modeling Part in Section 3 agree with each other. That is, fish do prefer the odor to expose when they grow-up over the others. However, that preference impact is very weak that may be concealed behind a strong side-effect, that is, fishes are very likely to turn to right regardless of the environment.
+
+
+	\section{Visualization for Boston University Women Soccer Team}
+	\subsection{Introduction \& Background}
+	test
+	\subsection{Data Format}
 	\subsection{Visualization}
-	asdf
-	\subsection{Discussion}
-	asdf	
+	\subsection{Discussion}	
 	
 	\section{R package: SingleCellTK(ongoing)}
 	asdf
